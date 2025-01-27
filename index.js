@@ -13,7 +13,7 @@ const db = new pg.Client({
     password: "AVNS_hnHbtO_-ARD0zCK4j7O",
     host: "dblibros-nuestroslibros.l.aivencloud.com",
     port: 24170,
-    database: "defaultdb",
+    database: "postgres",
     ssl: {
         rejectUnauthorized: true,
         ca: `-----BEGIN CERTIFICATE-----
