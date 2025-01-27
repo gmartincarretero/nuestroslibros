@@ -7,7 +7,7 @@ import url from "url";
 const app = express();
 const port = 3000;
 
-const config = {
+const db = {
     user: "avnadmin",
     password: "AVNS_hnHbtO_-ARD0zCK4j7O",
     host: "dblibros-nuestroslibros.l.aivencloud.com",
