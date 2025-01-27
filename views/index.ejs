@@ -1,0 +1,60 @@
+<%- include('partials/header.ejs'); -%>
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis">Los libros de María y Guille</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Catálogo Bibliográfico.</p>
+    <!-- Selectores y búsquedas -->
+    <div class="search">
+        <form action="/filter" method="post" id="filterForm">
+      <!-- Selector de autor -->
+       <div class="filter">
+          <select class="form-select" name="autores" id="autores">
+            <option selected>Filtrar por autor</option> 
+            <% for(let autor of select_autor){%>
+                <option value="<%= autor.author %>"><%= autor.author %></option>               
+            <% } %>        
+          </select>
+        
+      <!-- Selector de títulos -->
+      
+          <select class="form-select" name="titulos" id="titulos">
+            <option selected>Filtrar por título</option>   
+            <% for(let titulo of select_titulos){%>            
+                <option value="<%= titulo.title %>"><%= titulo.title %></option>               
+            <% } %>        
+          </select>
+           
+      <!-- Selector de propietario -->
+      
+          <select class="form-select" name="propietario" id="propietario">
+                <option selected>Filtrar por propietario</option>   
+                <option value="María">María</option>
+                <option value="Guillermo">Guillermo</option>
+                <option value="Ambos">Ambos</option>
+          </select>
+
+          <button class="btn btn-primary" type="submit">Filtrar</button>
+        </div>
+
+    <div class="listado">
+        <p class="encabezado_autor">Autor</p>
+        <p class="encabezado_titulo">Título</p>
+        <p class="encabezado_portada">Portada</p>
+        <p class="encabezado_propietario">Propietario</p>
+    </div>
+    <hr>
+      <% for(let book of listItems){%>
+                <div class="listado">
+                 <p class="listed_author"><%= book.author %></p>
+                 <p class="listed_title"><%= book.title %></p>     
+                 <% const a1 = "https://covers.openlibrary.org/b/isbn/"+ book.isbn + "-L.jpg"; %>
+                 <img class="listed_cover" src=<%= a1 %> alt="Book cover" width=200px>
+                 <p class="listed_owner"><%= book.owner %></p>
+                </div>
+                <hr>
+     <% } %>
+    </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

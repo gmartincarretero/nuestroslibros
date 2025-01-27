@@ -1,0 +1,29 @@
+<%- include('partials/header.ejs'); -%>
+<div class="px-4 py-5 my-5 text-left">
+    <h1 class="display-5 fw-bold text-body-emphasis text-center">Añadir un libro</h1>
+<div class="col-lg-6 mx-auto">
+<form class="item" action="/add" method="post">
+    <div class="mb-3">
+        <label for="newTitle" class="form-label">Título</label>
+        <input type="text"  name="newTitle" class="form-control" id="newTitle" placeholder="Título del libro">
+      </div>
+    <div class="mb-3">
+        <label for="newAuthor" class="form-label">Autor</label>
+        <input type="text" name="newAuthor" class="form-control" id="newAuthor" placeholder="Nombre del autor">
+      </div>
+        <div class="mb-3">
+            <label for="newIsbn" class="form-label">ISBN</label>
+            <input type="text" name="newIsbn" class="form-control" id="newIsbn" placeholder="0123456789012">
+          </div>
+          <div class="mb-3">
+            <label for="newOwner" class="form-label">Propietario</label>
+            <input type="text" name="newOwner" class="form-control" id="newOwner" placeholder="Guillermo / María">
+          </div>
+          <div class="d-grid gap-2">
+        <input class="btn btn-success" type="submit" value="Enviar">
+        </div>
+  </form>
+</div>
+</div>
+</div>
+</body>

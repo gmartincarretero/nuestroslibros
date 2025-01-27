@@ -1,0 +1,138 @@
+.search{
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.search-wrapper {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.search-box {
+    position: relative;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.search-box:focus-within {
+    box-shadow: 0 3px 20px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.search-input {
+    border-radius: 50px;
+    padding-left: 45px;
+    padding-right: 20px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    height: 50px;
+}
+
+.search-input:focus {
+    border-color: #0d6efd;
+    box-shadow: none;
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    z-index: 10;
+}
+
+.search-button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50px;
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-50%) scale(1.05);
+}
+
+/* Dark theme search box */
+.search-box.dark {
+    background-color: #212529;
+}
+
+.search-box.dark .search-input {
+    background-color: #212529;
+    color: #fff;
+}
+
+.search-box.dark .search-input::placeholder {
+    color: #6c757d;
+}
+
+.search-box.dark .search-icon {
+    color: #6c757d;
+}
+
+.listado{
+    display: flex;
+    justify-content: space-between;
+}
+
+.encabezado_autor{
+    font-weight: bold;
+    text-align: left;
+    width: 250px;
+}
+
+.encabezado_titulo{
+    font-weight: bold;
+    text-align: left;
+    width: 500px;
+}
+
+.encabezado_portada{
+    font-weight: bold;
+    text-align: center;
+    width: 200px;
+}
+
+.encabezado_propietario{
+    font-weight: bold;
+    text-align: right;
+    width: 80px;
+}
+
+.listed_author{
+    text-align: left;
+    width: 250px;
+}
+
+.listed_title{
+    text-align: left;
+    width: 500px;
+}
+
+.listed_cover{
+    text-align: right;
+    width: 200px;
+}
+
+.listed_owner{
+    text-align: right;
+    width: 80px;
+}
+
+.filter{
+    display: flex;
+    justify-content: space-evenly;
+    padding-bottom: 25px;
+}
+
+.form-select{
+    text-align: left;
+    width: 250px;
+}
