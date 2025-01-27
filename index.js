@@ -8,7 +8,6 @@ const port = 3000;
 const db = new pg.Client({
   user: "postgres",
   host: "fairly-social-owlet.data-1.use1.tembo.io",
-  database: "libros",
   password: "yR9UXgzbxCVdA2k2",
   port: 5432,
 });
