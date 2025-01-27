@@ -43,7 +43,7 @@ pBlnDmlvvLD4bTLZm0Wm1SkwITZXS11WlaskCorF3MEnHZRy4Q==
     },
 };
 
-const client = new pg.Client(config);
+const client = new pg.Client(db);
 client.connect(function (err) {
     if (err)
         throw err;
