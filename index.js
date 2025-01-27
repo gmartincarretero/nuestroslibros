@@ -1,18 +1,20 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
-import fs from "fs";
-import url from "url";
 
 const app = express();
 const port = 3000;
 
-const db = {
+const fs = require('fs');
+const pg = require('pg');
+const url = require('url');
+
+const db = new pg.Client({
     user: "avnadmin",
     password: "AVNS_hnHbtO_-ARD0zCK4j7O",
     host: "dblibros-nuestroslibros.l.aivencloud.com",
     port: 24170,
-    database: "postgres",
+    database: "defaultdb",
     ssl: {
         rejectUnauthorized: true,
         ca: `-----BEGIN CERTIFICATE-----
@@ -41,23 +43,9 @@ c0FbfG26Od95hRiRz+ev9I9KNVOO2DQl1/rL1ZODXucajLst1Dnq/4MH3konIYEC
 pBlnDmlvvLD4bTLZm0Wm1SkwITZXS11WlaskCorF3MEnHZRy4Q==
 -----END CERTIFICATE-----`,
     },
-};
-
-const client = new pg.Client(db);
-client.connect(function (err) {
-    if (err)
-        throw err;
-    client.query("SELECT VERSION()", [], function (err, result) {
-        if (err)
-            throw err;
-
-        console.log(result.rows[0].version);
-        client.end(function (err) {
-            if (err)
-                throw err;
-        });
-    });
 });
+
+db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
