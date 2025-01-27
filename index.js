@@ -1,20 +1,63 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import fs from "fs";
+import url from "url";
 
 const app = express();
 const port = 3000;
 
-const db = new pg.Client({
-  user: "postgres",
-  host: "fairly-social-owlet.data-1.use1.tembo.io",
-  database: "postgres",
-  password: "yR9UXgzbxCVdA2k2",
-  port: 5432,
-  connectionTimeoutMillis: 50000, // 50 segundos para timeout de conexión
-  query_timeout: 50000 // Timeout para cada consulta individual
+const config = {
+    user: "avnadmin",
+    password: "AVNS_hnHbtO_-ARD0zCK4j7O",
+    host: "dblibros-nuestroslibros.l.aivencloud.com",
+    port: 24170,
+    database: "postgres",
+    ssl: {
+        rejectUnauthorized: true,
+        ca: `-----BEGIN CERTIFICATE-----
+MIIEQTCCAqmgAwIBAgIUOEr7aiGf6LL4PLWSO1Y8r5KYE4AwDQYJKoZIhvcNAQEM
+BQAwOjE4MDYGA1UEAwwvMDczZWMzMWMtNWZmOC00ZjQyLWE1OTYtOTFiNTkyZjRl
+YmExIFByb2plY3QgQ0EwHhcNMjUwMTI3MTU1OTUyWhcNMzUwMTI1MTU1OTUyWjA6
+MTgwNgYDVQQDDC8wNzNlYzMxYy01ZmY4LTRmNDItYTU5Ni05MWI1OTJmNGViYTEg
+UHJvamVjdCBDQTCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBAJAqCmue
+lJGl/wABRbNKDhtrn6z6cocCC9NjZ7dMM35ZMkgA7Bw/TJno8YrSrQWRqDdBj8g3
+spgPkq3CmMBZKAn4GVI4m2pigDnzMcycSirZ9hgd2M938AFZ5yRIYM6wEYkxjjQS
+UpEwgSkZvnE9nQKcYOOf/PvdSXrIDjmxRcfFYL6IJhJytiVuTE5iT6rgZrYvODxI
+kHcNKXOSYVHvXOOdI/OIYa+9xjuen7VmpS9VNVv1rq5PgeO8moONVxngVDrD0otw
+cLBOlyWWQfyqFf03Cjzvgn8n7idzQzb0wKR3LBY5+R2j5Sgb5bnAhor3tcwy994f
+K7x9DDTc905qzrl/7EbOlwylUo/IRLjxTqRlgamNr+fT5eBVWX4q4TzHEsl7yPQR
+8jNSKUgEeig90Cu0NNQ/gm5JY/oKpEVHES61VQbCkflk68Jf67ZtLdt4cJqiXx2R
+YOZp4yFLUa8RVcbzCfDBa52w5buJeV1cOxvXCC1brxwWxd7mVrcS8kWjJwIDAQAB
+oz8wPTAdBgNVHQ4EFgQUrV3gc6qkq0PdjPuHpKjVvosUa8gwDwYDVR0TBAgwBgEB
+/wIBADALBgNVHQ8EBAMCAQYwDQYJKoZIhvcNAQEMBQADggGBAEVlvEJAjcOAuGEH
+R6kIxmea+1A//ZeepqR6j+jnpuHHeIzmHxKlB2VybaBdeVRcIpqVtxDfdF/Z5euj
+cAhXMrtVTcbnE1hNUi7wZs5g32eDnMiUrlYAhJMXxGu0l+mr5+mjWH/U+vFG7EKH
+fkR1eDAAWw//RPFM85Z5WOH1GsTvWQyd/U0L/36mGJb3NcpMQIZXBwHbUfxZRZrM
+FrB6EGDCQ6I7m59MZAxnSA6FfUQb91sBvJP2Vzu5DwMIGtoH8DlD75lJYRWu9YMW
+KrzvI74wNmyhgaZwCX/0nkz0XbeqOkK3972NRKa2RKTBNRH9PvS/LlNtFqGYD6dz
+H3WiENmPgTylEuvBg0ZooRGWHoV3rNS61Tew+ENfDoGf4D29aCDc1MIZtM+2codT
+c0FbfG26Od95hRiRz+ev9I9KNVOO2DQl1/rL1ZODXucajLst1Dnq/4MH3konIYEC
+pBlnDmlvvLD4bTLZm0Wm1SkwITZXS11WlaskCorF3MEnHZRy4Q==
+-----END CERTIFICATE-----`,
+    },
+};
+
+const client = new pg.Client(config);
+client.connect(function (err) {
+    if (err)
+        throw err;
+    client.query("SELECT VERSION()", [], function (err, result) {
+        if (err)
+            throw err;
+
+        console.log(result.rows[0].version);
+        client.end(function (err) {
+            if (err)
+                throw err;
+        });
+    });
 });
-db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
