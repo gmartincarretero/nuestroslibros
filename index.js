@@ -11,6 +11,8 @@ const db = new pg.Client({
   database: "postgres",
   password: "yR9UXgzbxCVdA2k2",
   port: 5432,
+  connectionTimeoutMillis: 50000, // 50 segundos para timeout de conexión
+  query_timeout: 50000 // Timeout para cada consulta individual
 });
 db.connect();
 
