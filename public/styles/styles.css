@@ -78,61 +78,57 @@
 }
 
 .listado{
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 3fr 5fr 3fr 1fr;
+}
+
+.encabezado{
+    display: grid;
+    grid-template-columns: 3fr 5fr 3fr 1fr;
 }
 
 .encabezado_autor{
     font-weight: bold;
     text-align: left;
-    width: 250px;
 }
 
 .encabezado_titulo{
     font-weight: bold;
     text-align: left;
-    width: 500px;
 }
 
 .encabezado_portada{
     font-weight: bold;
     text-align: center;
-    width: 200px;
 }
 
 .encabezado_propietario{
     font-weight: bold;
     text-align: right;
-    width: 80px;
 }
 
 .listed_author{
     text-align: left;
-    width: 250px;
 }
 
 .listed_title{
     text-align: left;
-    width: 500px;
 }
 
 .listed_cover{
     text-align: right;
-    width: 200px;
 }
 
 .listed_owner{
     text-align: right;
-    width: 80px;
 }
 
 .filter{
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr;
     padding-bottom: 25px;
 }
 
 .form-select{
     text-align: left;
-    width: 250px;
 }
