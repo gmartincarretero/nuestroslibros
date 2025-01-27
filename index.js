@@ -1,13 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import fs from "fs";
+import url from "url";
 
 const app = express();
 const port = 3000;
 
-const fs = require('fs');
-const pg = require('pg');
-const url = require('url');
 
 const db = new pg.Client({
     user: "avnadmin",
