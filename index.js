@@ -163,6 +163,104 @@ app.get("/", async (req, res) => {
     res.render("add.ejs");
 });
 
+let artistas = "";
+
+let titulos_discos = "";
+
+app.get("/index_discos", async (req, res) => {
+    try {
+      const artistas_query = await db.query("SELECT DISTINCT artist FROM disks ORDER BY author ASC")
+      artistas = artistas_query.rows;
+      const titulos_query = await db.query("SELECT DISTINCT title FROM disks ORDER BY title ASC")
+      titulos_discos = titulos_query.rows;
+      const result = await db.query("SELECT * FROM disks ORDER BY author ASC");
+      items = result.rows;
+      res.render("index_discos.ejs", {
+        listItems: items,
+        select_artistas: artistas,
+        select_titulos: titulos_discos,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  app.post("/filter_discos", async (req, res) => {
+    try {
+      // Fetch unique authors and titles from the database
+      const artistas_query = await db.query("SELECT DISTINCT artist FROM disks ORDER BY author ASC");
+      const artistas = artistas_query.rows;
+      
+      const titulos_query = await db.query("SELECT DISTINCT title FROM disks ORDER BY title ASC");
+      const titulos_discos = titulos_query.rows;
+  
+      // Initialize items to an empty array
+      let items = [];
+  
+
+      // Render the results along with the select options
+      res.render("index_discos.ejs", {
+        listItems: items,
+        select_autor: artistas,
+        select_titulos: titulos_discos,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+
+  app.post("/search_discos", async (req, res) =>{
+    try {
+        // Fetch unique authors and titles from the database
+        const artistas_query = await db.query("SELECT DISTINCT artist FROM disks ORDER BY artist ASC");
+        const artistas = artistas_query.rows;
+        
+        const titulos_query = await db.query("SELECT DISTINCT title FROM disks ORDER BY title ASC");
+        const titulos_discos = titulos_query.rows;
+    
+        // Initialize items to an empty array
+        let items = [];
+    
+        // Perform filtering based on selected criteria
+        console.log(req.body.buscador)
+        if (req.body.buscador) {
+            const searchTerm = '%' + req.body.buscador + '%';
+        
+            const result = await db.query(
+                "SELECT * FROM disks WHERE ts @@ to_tsquery('spanish', $1) ORDER BY author ASC;",
+                [searchTerm]
+            );
+            items = result.rows;
+        }
+        // Render the results along with the select options
+        res.render("index_discos.ejs", {
+          listItems: items,
+          select_autor: artistas,
+          select_titulos: titulos_discos,
+        });
+      } catch (err) {
+        console.log(err);
+        res.status(500).send("Internal Server Error");
+      }
+    });
+  
+  app.post("/add_disco", async (req, res) => {
+    const new_artist = req.body.newArtist;
+    const new_title = req.body.newTitle;
+    const new_year = req.body.newYear;
+    try {
+      await db.query("INSERT INTO disks (artist, title, year) VALUES ($1, $2, $3)", [new_artist, new_title, new_year]);
+      res.redirect("/");
+    } catch (err) {
+      console.log(err);
+    }
+  });
+  
+  app.get("/add_disco", (req, res) => {
+    res.render("add_disco.ejs");
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
