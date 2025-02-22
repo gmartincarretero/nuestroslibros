@@ -11,7 +11,7 @@
        <div class="filter">
           <select class="form-select" name="artistas" id="artistas">
             <option selected>Filtrar por artista</option> 
-            <% for(let artista of select_artista){%>
+            <% for(let artista of select_artistas){%>
                 <option value="<%= artista.artist %>"><%= artista.artist %></option>               
             <% } %>        
           </select>
@@ -40,8 +40,6 @@
                  <p class="listed_author"><%= disco.artist %></p>
                  <p class="listed_title"><%= disco.title %></p>
                  <p class="listed_year"><%= disco.year %></p>     
-                 <!-- <% const a1 = "https://covers.openlibrary.org/b/isbn/"+ book.isbn + "-L.jpg"; %> -->
-                 <img class="listed_cover" src=<%= a1 %> alt="Disk cover" width=200px>
                 </div>
                 <hr>
      <% } %>
