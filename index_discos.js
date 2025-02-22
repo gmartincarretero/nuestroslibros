@@ -53,21 +53,21 @@ let items = [
     { id: 2, title: "Imágenes en acción", author: "Terry Pratchett", isbn: 9788497597630 },
   ];
 
-let autores = "";
+let artistas = "";
 
 let titulos = "";
 
 app.get("/", async (req, res) => {
     try {
-      const autores_query = await db.query("SELECT DISTINCT author FROM libros ORDER BY author ASC")
-      autores = autores_query.rows;
-      const titulos_query = await db.query("SELECT DISTINCT title FROM libros ORDER BY title ASC")
+      const artistas_query = await db.query("SELECT DISTINCT artist FROM disks ORDER BY author ASC")
+      artistas = artistas_query.rows;
+      const titulos_query = await db.query("SELECT DISTINCT title FROM disks ORDER BY title ASC")
       titulos = titulos_query.rows;
-      const result = await db.query("SELECT * FROM libros ORDER BY author ASC");
+      const result = await db.query("SELECT * FROM disks ORDER BY author ASC");
       items = result.rows;
-      res.render("index.ejs", {
+      res.render("index_discos.ejs", {
         listItems: items,
-        select_autor: autores,
+        select_artistas: artistas,
         select_titulos: titulos,
       });
     } catch (err) {
@@ -75,34 +75,23 @@ app.get("/", async (req, res) => {
     }
   });
 
-  app.post("/filter", async (req, res) => {
+  app.post("/filter_discos", async (req, res) => {
     try {
       // Fetch unique authors and titles from the database
-      const autores_query = await db.query("SELECT DISTINCT author FROM libros ORDER BY author ASC");
-      const autores = autores_query.rows;
+      const artistas_query = await db.query("SELECT DISTINCT artist FROM disks ORDER BY author ASC");
+      const artistas = artistas_query.rows;
       
-      const titulos_query = await db.query("SELECT DISTINCT title FROM libros ORDER BY title ASC");
+      const titulos_query = await db.query("SELECT DISTINCT title FROM disks ORDER BY title ASC");
       const titulos = titulos_query.rows;
   
       // Initialize items to an empty array
       let items = [];
   
-      // Perform filtering based on selected criteria
-      if (req.body.autores && req.body.titulos === "Filtrar por título" && req.body.propietario === "Filtrar por propietario") {
-        const result = await db.query("SELECT * FROM libros WHERE author = $1 ORDER BY author ASC", [req.body.autores]);
-        items = result.rows;
-      } else if (req.body.autores === "Filtrar por autor" && req.body.titulos && req.body.propietario === "Filtrar por propietario") {
-        const result = await db.query("SELECT * FROM libros WHERE title = $1 ORDER BY title ASC", [req.body.titulos]);
-        items = result.rows;        
-      } else if (req.body.autores === "Filtrar por autor" && req.body.titulos === "Filtrar por título" && req.body.propietario) {
-        const result = await db.query("SELECT * FROM libros WHERE owner = $1 ORDER BY owner ASC", [req.body.propietario]);
-        items = result.rows;          
-      }
-  
+
       // Render the results along with the select options
-      res.render("index.ejs", {
+      res.render("index_discos.ejs", {
         listItems: items,
-        select_autor: autores,
+        select_autor: artistas,
         select_titulos: titulos,
       });
     } catch (err) {
@@ -111,13 +100,13 @@ app.get("/", async (req, res) => {
     }
   });
 
-  app.post("/search", async (req, res) =>{
+  app.post("/search_discos", async (req, res) =>{
     try {
         // Fetch unique authors and titles from the database
-        const autores_query = await db.query("SELECT DISTINCT author FROM libros ORDER BY author ASC");
-        const autores = autores_query.rows;
+        const artistas_query = await db.query("SELECT DISTINCT artist FROM disks ORDER BY artist ASC");
+        const artistas = artistas_query.rows;
         
-        const titulos_query = await db.query("SELECT DISTINCT title FROM libros ORDER BY title ASC");
+        const titulos_query = await db.query("SELECT DISTINCT title FROM disks ORDER BY title ASC");
         const titulos = titulos_query.rows;
     
         // Initialize items to an empty array
@@ -129,15 +118,15 @@ app.get("/", async (req, res) => {
             const searchTerm = '%' + req.body.buscador + '%';
         
             const result = await db.query(
-                "SELECT * FROM libros WHERE ts @@ to_tsquery('spanish', $1) ORDER BY author ASC;",
+                "SELECT * FROM disks WHERE ts @@ to_tsquery('spanish', $1) ORDER BY author ASC;",
                 [searchTerm]
             );
             items = result.rows;
         }
         // Render the results along with the select options
-        res.render("index.ejs", {
+        res.render("index_discos.ejs", {
           listItems: items,
-          select_autor: autores,
+          select_autor: artistas,
           select_titulos: titulos,
         });
       } catch (err) {
@@ -146,21 +135,20 @@ app.get("/", async (req, res) => {
       }
     });
   
-  app.post("/add", async (req, res) => {
-    const new_author = req.body.newAuthor;
+  app.post("/add_disco", async (req, res) => {
+    const new_artist = req.body.newArtist;
     const new_title = req.body.newTitle;
-    const new_isbn = req.body.newISBN;
-    const new_owner = req.body.newOwner;
+    const new_year = req.body.newYear;
     try {
-      await db.query("INSERT INTO libros (author, title, isbn, owner) VALUES ($1, $2, $3)", [new_author, new_title, new_isbn, new_owner]);
+      await db.query("INSERT INTO disks (artist, title, year) VALUES ($1, $2, $3)", [new_artist, new_title, new_year]);
       res.redirect("/");
     } catch (err) {
       console.log(err);
     }
   });
   
-  app.get("/add", (req, res) => {
-    res.render("add.ejs");
+  app.get("/add_disco", (req, res) => {
+    res.render("add_disco.ejs");
 });
 
 app.listen(port, () => {

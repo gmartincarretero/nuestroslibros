@@ -1,0 +1,25 @@
+<%- include('partials/header.ejs'); -%>
+<div class="px-4 py-5 my-5 text-left">
+    <h1 class="display-5 fw-bold text-body-emphasis text-center">Añadir un disco</h1>
+<div class="col-lg-6 mx-auto">
+<form class="item" action="/add_disco" method="post">
+  <div class="mb-3">
+    <label for="newArtist" class="form-label">Artista</label>
+    <input type="text" name="newArtist" class="form-control" id="newArtist" placeholder="Nombre del artista">
+  </div>
+    <div class="mb-3">
+    <div class="mb-3">
+        <label for="newTitle" class="form-label">Título</label>
+        <input type="text"  name="newTitle" class="form-control" id="newTitle" placeholder="Título del disco">
+      </div>
+            <label for="newYear" class="form-label">Año</label>
+            <input type="text" name="newYear" class="form-control" id="newYear" placeholder="Año">
+          </div>
+          <div class="d-grid gap-2">
+        <input class="btn btn-success" type="submit" value="Enviar">
+        </div>
+  </form>
+</div>
+</div>
+</div>
+</body>
