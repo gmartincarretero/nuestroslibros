@@ -169,11 +169,11 @@ let titulos_discos = "";
 
 app.get("/index_discos", async (req, res) => {
     try {
-      const artistas_query = await db.query("SELECT DISTINCT artist FROM disks ORDER BY author ASC")
+      const artistas_query = await db.query("SELECT DISTINCT artist FROM disks ORDER BY artist ASC")
       artistas = artistas_query.rows;
       const titulos_query = await db.query("SELECT DISTINCT title FROM disks ORDER BY title ASC")
       titulos_discos = titulos_query.rows;
-      const result = await db.query("SELECT * FROM disks ORDER BY author ASC");
+      const result = await db.query("SELECT * FROM disks ORDER BY artist ASC");
       items = result.rows;
       res.render("index_discos.ejs", {
         listItems: items,
@@ -188,7 +188,7 @@ app.get("/index_discos", async (req, res) => {
   app.post("/filter_discos", async (req, res) => {
     try {
       // Fetch unique authors and titles from the database
-      const artistas_query = await db.query("SELECT DISTINCT artist FROM disks ORDER BY author ASC");
+      const artistas_query = await db.query("SELECT DISTINCT artist FROM disks ORDER BY artist ASC");
       const artistas = artistas_query.rows;
       
       const titulos_query = await db.query("SELECT DISTINCT title FROM disks ORDER BY title ASC");
@@ -228,7 +228,7 @@ app.get("/index_discos", async (req, res) => {
             const searchTerm = '%' + req.body.buscador + '%';
         
             const result = await db.query(
-                "SELECT * FROM disks WHERE ts @@ to_tsquery('spanish', $1) ORDER BY author ASC;",
+                "SELECT * FROM disks WHERE ts @@ to_tsquery('spanish', $1) ORDER BY artist ASC;",
                 [searchTerm]
             );
             items = result.rows;
