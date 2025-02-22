@@ -57,7 +57,7 @@ let artistas = "";
 
 let titulos = "";
 
-app.get("/", async (req, res) => {
+app.get("/index_discos.ejs", async (req, res) => {
     try {
       const artistas_query = await db.query("SELECT DISTINCT artist FROM disks ORDER BY author ASC")
       artistas = artistas_query.rows;
